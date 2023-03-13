@@ -29,5 +29,5 @@ jobs:
         file: ./Dockerfile
         push: true
         tags: |
-          diable201/morpho:latest
-          diable201/morpho:${{ github.sha }}
+          diable201/morphoimage:latest
+          diable201/morphoimage:${{ github.sha }}
