@@ -1,0 +1,14 @@
+version: '3.11'
+
+services:
+  morpho:
+    image: diable201/morpho:latest
+    container_name: morpho
+    environment:
+      - OPENAI_API_KEY
+      - TELEGRAM_TOKEN
+      - MONGO_LINK
+      - MONGO_DB
+      - TEMPERATURE
+      - ALLOWED_USERS
+    restart: always
