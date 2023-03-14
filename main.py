@@ -58,8 +58,7 @@ def get_previous_dialogue(user_id: int):
     return None
 
 
-def save_current_dialogue(user_id: int, dialogue):
-    print(type(dialogue))
+def save_current_dialogue(user_id: int, dialogue: str):
     morpho_collection.replace_one(
         {"user_id": user_id},
         {"user_id": user_id, "dialogue": dialogue},
@@ -107,14 +106,17 @@ def reset_message(message: types.Message):
 
 def main():
     @bot.message_handler(commands=["ask"])
+    @restricted_access
     def handle(message: types.Message):
         user_id = message.from_user.id
+        if len(message.text.split()) == 1:
+            bot.send_message(message.chat.id, "Введите ваш запрос корректно. Например: /ask Как выучить английский?")
+            return
         previous_dialogue = get_previous_dialogue(user_id)
         prompt = "User: " + message.text + "\nBot: "
         if previous_dialogue:
             prompt = previous_dialogue + prompt
         log_message(user="user", message=message)
-
         try:
             response = openai.Completion.create(
                 engine="text-davinci-003",
